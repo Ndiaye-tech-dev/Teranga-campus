@@ -1,0 +1,18 @@
+export function hasSupabaseConfig() {
+  return Boolean(
+    process.env.NEXT_PUBLIC_SUPABASE_URL &&
+      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
+  );
+}
+
+export function getContactEmail() {
+  return process.env.NEXT_PUBLIC_CONTACT_EMAIL ?? "";
+}
+
+export function getContactPhone() {
+  return process.env.NEXT_PUBLIC_CONTACT_PHONE ?? "";
+}
+
+export function getContactLinkedin() {
+  return process.env.NEXT_PUBLIC_CONTACT_LINKEDIN ?? "";
+}

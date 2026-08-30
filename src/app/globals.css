@@ -1,0 +1,83 @@
+@import "tailwindcss";
+
+:root {
+  --paper: #f3f5fb;
+  --ink: #0b1220;
+  --muted: #5a6478;
+  --pine: #1e3a8a;
+  --pine-soft: #2d4aa8;
+  --clay: #d97706;
+  --line: #dce2ee;
+  --card: #ffffff;
+}
+
+@theme inline {
+  --color-paper: var(--paper);
+  --color-ink: var(--ink);
+  --color-muted: var(--muted);
+  --color-pine: var(--pine);
+  --color-pine-soft: var(--pine-soft);
+  --color-clay: var(--clay);
+  --color-line: var(--line);
+  --color-card: var(--card);
+  --font-sans: var(--font-outfit);
+  --font-serif: var(--font-fraunces);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-outfit), system-ui, sans-serif;
+}
+
+::selection {
+  background: #dbe4ff;
+  color: var(--pine);
+}
+
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.fade-up {
+  animation: fade-up 0.55s ease both;
+}
+
+.fade-up-delay-1 {
+  animation-delay: 80ms;
+}
+
+.fade-up-delay-2 {
+  animation-delay: 160ms;
+}
+
+.fade-up-delay-3 {
+  animation-delay: 240ms;
+}
+
+.hero-glow {
+  background:
+    radial-gradient(900px 380px at 12% -10%, rgba(30, 58, 138, 0.12), transparent 60%),
+    radial-gradient(700px 320px at 92% 0%, rgba(217, 119, 6, 0.1), transparent 55%);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .fade-up {
+    animation: none;
+  }
+}
