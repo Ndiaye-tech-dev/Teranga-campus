@@ -9,7 +9,6 @@ pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/b
 
 export function PdfViewer({ url }: { url: string }) {
   const [numPages, setNumPages] = useState<number>(0);
-  const [pageNumber, setPageNumber] = useState<number>(1);
   const [width, setWidth] = useState<number>(0);
   const [scale, setScale] = useState<number>(1);
   const [searchText, setSearchText] = useState("");
@@ -22,13 +21,10 @@ export function PdfViewer({ url }: { url: string }) {
   const zoomOut = () => setScale((s) => Math.max(s - 0.2, 0.5));
   const resetZoom = () => setScale(1);
 
-  const goPrev = () => setPageNumber((p) => Math.max(p - 1, 1));
-  const goNext = () => setPageNumber((p) => Math.min(p + 1, numPages));
-
   return (
     <div className="space-y-3">
       {/* Barre d'outils */}
-      <div className="flex flex-wrap items-center gap-3 rounded-xl border border-line bg-card px-4 py-2">
+      <div className="sticky top-0 z-10 flex flex-wrap items-center gap-3 rounded-xl border border-line bg-card px-4 py-2 shadow-sm">
         <div className="flex items-center gap-2">
           <button
             type="button"
@@ -62,60 +58,50 @@ export function PdfViewer({ url }: { url: string }) {
             className="w-full rounded-full border border-line bg-paper px-4 py-1.5 text-sm text-ink placeholder:text-muted/60 focus:border-pine/40 focus:outline-none"
           />
         </div>
+
+        {numPages > 0 && (
+          <span className="whitespace-nowrap text-xs text-muted">
+            {numPages} page{numPages > 1 ? "s" : ""}
+          </span>
+        )}
       </div>
 
-      {/* Document : une seule page affichée */}
-      <div ref={containerRef} className="w-full overflow-x-auto">
+      {/* Document : toutes les pages empilées, défilement continu */}
+      <div
+        ref={containerRef}
+        className="max-h-[80vh] w-full overflow-y-auto overflow-x-hidden rounded-2xl bg-[#525659] p-3"
+      >
         <Document
           file={url}
           onLoadSuccess={({ numPages }) => setNumPages(numPages)}
           loading={
-            <p className="py-12 text-center text-muted">Chargement du document…</p>
+            <p className="py-12 text-center text-white/80">
+              Chargement du document…
+            </p>
           }
           error={
-            <p className="py-12 text-center text-muted">
-              Impossible d'afficher ce document.
+            <p className="py-12 text-center text-white/80">
+              Impossible d&apos;afficher ce document.
             </p>
           }
         >
-          <div className="flex justify-center">
-            <Page
-              pageNumber={pageNumber}
-              width={width ? width * scale : undefined}
-              customTextRenderer={
-                searchText
-                  ? ({ str }) => highlightMatch(str, searchText)
-                  : undefined
-              }
-            />
+          <div className="flex flex-col items-center gap-3">
+            {Array.from({ length: numPages }, (_, i) => (
+              <Page
+                key={i}
+                pageNumber={i + 1}
+                width={width ? width * scale : undefined}
+                className="shadow-md"
+                customTextRenderer={
+                  searchText
+                    ? ({ str }) => highlightMatch(str, searchText)
+                    : undefined
+                }
+              />
+            ))}
           </div>
         </Document>
       </div>
-
-      {/* Navigation Précédent / Suivant */}
-      {numPages > 0 && (
-        <div className="flex items-center justify-center gap-4 rounded-xl border border-line bg-card px-4 py-2">
-          <button
-            type="button"
-            onClick={goPrev}
-            disabled={pageNumber <= 1}
-            className="rounded-full border border-line px-4 py-1.5 text-sm text-ink transition-colors hover:border-pine/40 disabled:cursor-not-allowed disabled:opacity-40"
-          >
-            ← Précédent
-          </button>
-          <span className="text-sm text-muted">
-            Page {pageNumber} / {numPages}
-          </span>
-          <button
-            type="button"
-            onClick={goNext}
-            disabled={pageNumber >= numPages}
-            className="rounded-full border border-line px-4 py-1.5 text-sm text-ink transition-colors hover:border-pine/40 disabled:cursor-not-allowed disabled:opacity-40"
-          >
-            Suivant →
-          </button>
-        </div>
-      )}
     </div>
   );
 }
