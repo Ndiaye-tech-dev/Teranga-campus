@@ -15,12 +15,13 @@ const fraunces = Fraunces({
 });
 
 export const metadata: Metadata = {
-  title: {
-    default: "Teranga Campus",
-    template: "%s · Teranga Campus",
+  title: "Teranga Campus",
+  description: "Les cours de Sciences Économiques et de Gestion, de la Licence 1 à la Licence 3, rassemblés au même endroit.",
+  openGraph: {
+    title: "Teranga Campus",
+    description: "Les cours SEG de l'UAM, centralisés et accessibles gratuitement.",
+    images: ["/og-image.png"],
   },
-  description:
-    "Cours de Sciences Économiques et de Gestion, Licence 1 à Licence 3 — Université Amadou Makhtar Mbow, Dakar.",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
