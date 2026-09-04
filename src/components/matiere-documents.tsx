@@ -1,5 +1,6 @@
 "use client";
 
+import { PdfViewer } from "@/components/pdf-viewer";
 import { DOCUMENT_TYPES, type Document, type DocumentType } from "@/lib/types";
 import { useMemo, useState } from "react";
 
@@ -166,17 +167,10 @@ function TdGroup({
 function PdfFrame({ document }: { document: Document }) {
   return (
     <div className="space-y-3">
-      <div className="overflow-hidden rounded-2xl border border-line bg-card">
-        <iframe
-          title={document.titre}
-          src={`/api/documents/${document.id}/view`}
-          className="h-[78vh] w-full bg-white"
-        />
+      <div className="overflow-hidden rounded-2xl border border-line bg-card p-3">
+        <PdfViewer url={`/api/documents/${document.id}/view`} />
       </div>
-      <a
-        href={`/api/documents/${document.id}/download`}
-        className="inline-flex items-center rounded-full bg-clay px-5 py-2.5 text-sm text-white transition-transform duration-200 hover:-translate-y-0.5"
-      >
+      <a href={`/api/documents/${document.id}/download`} className="inline-flex items-center rounded-full bg-clay px-5 py-2.5 text-sm text-white transition-transform duration-200 hover:-translate-y-0.5">
         Télécharger — {document.titre}
       </a>
     </div>

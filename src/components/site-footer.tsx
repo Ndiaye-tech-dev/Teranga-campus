@@ -22,7 +22,7 @@ export async function SiteFooter() {
       <div className="mx-auto grid max-w-6xl gap-10 px-5 py-14 sm:grid-cols-2 lg:grid-cols-4">
         <div className="sm:col-span-2 lg:col-span-1">
           <div className="flex items-center gap-3">
-            <Logo className="h-10 w-10" />
+          <Logo className="h-10 max-w-[140px]" />
             <p className="font-serif text-xl">{SITE.name}</p>
           </div>
           <p className="mt-4 text-sm leading-relaxed text-white/70">{SITE.tagline}</p>

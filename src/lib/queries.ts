@@ -1,3 +1,4 @@
+import { matierePath } from "@/lib/site";
 import { cache } from "react";
 import { createClient } from "@/lib/supabase/server";
 import type { Document, Matiere, Module, Niveau, Semestre } from "@/lib/types";
@@ -155,3 +156,70 @@ export const getDocumentsByMatiere = cache(async (matiereId: string): Promise<Do
   }
   return (data ?? []) as Document[];
 });
+
+
+
+export type SearchResult = {
+  kind: "matiere" | "document";
+  title: string;
+  subtitle: string;
+  href: string;
+};
+
+export async function searchContent(query: string): Promise<SearchResult[]> {
+  if (!query.trim()) return [];
+  const supabase = await createClient();
+  const like = `%${query}%`;
+
+  const [{ data: matieres }, { data: documents }] = await Promise.all([
+    supabase.from("matieres").select("id, nom, niveau_id, module_id").ilike("nom", like).limit(10),
+    supabase.from("documents").select("id, titre, type, matiere_id").ilike("titre", like).limit(10),
+  ]);
+
+  const matiereIds = new Set<string>();
+  (matieres ?? []).forEach((m) => matiereIds.add(m.id));
+  (documents ?? []).forEach((d) => matiereIds.add(d.matiere_id));
+
+  if (matiereIds.size === 0) return [];
+
+  const { data: allMatieres } = await supabase
+    .from("matieres")
+    .select("id, nom, niveau_id, module_id")
+    .in("id", Array.from(matiereIds));
+
+  const moduleIds = Array.from(new Set((allMatieres ?? []).map((m) => m.module_id)));
+  const { data: modules } = await supabase.from("modules").select("id, semestre").in("id", moduleIds);
+  const { data: niveaux } = await supabase.from("niveaux").select("id, nom");
+
+  const matiereMap = new Map((allMatieres ?? []).map((m) => [m.id, m]));
+  const moduleMap = new Map((modules ?? []).map((m) => [m.id, m]));
+  const niveauMap = new Map((niveaux ?? []).map((n) => [n.id, n.nom]));
+
+  const results: SearchResult[] = [];
+
+  for (const m of matieres ?? []) {
+    const mod = moduleMap.get(m.module_id);
+    if (!mod) continue;
+    results.push({
+      kind: "matiere",
+      title: m.nom,
+      subtitle: niveauMap.get(m.niveau_id) ?? "",
+      href: matierePath(m.niveau_id, mod.semestre as 1 | 2, m.id),
+    });
+  }
+
+  for (const d of documents ?? []) {
+    const m = matiereMap.get(d.matiere_id);
+    if (!m) continue;
+    const mod = moduleMap.get(m.module_id);
+    if (!mod) continue;
+    results.push({
+      kind: "document",
+      title: d.titre,
+      subtitle: m.nom,
+      href: matierePath(m.niveau_id, mod.semestre as 1 | 2, m.id),
+    });
+  }
+
+  return results.slice(0, 12);
+}
