@@ -47,8 +47,8 @@ export default async function NiveauPage({
     const infos = [
       mods.length > 0 ? plural(mods.length, "module") : null,
       mats.length > 0 ? plural(mats.length, "matière") : null,
-      docs > 0 ? plural(docs, "document") : null,
-    ].filter(Boolean);
+      docs > 0 ? plural(docs, "doc") : null,
+    ].filter(Boolean) as string[];
     return { n, bg: n === 1 ? "bg-sun" : "bg-mint", infos };
   });
 
@@ -78,9 +78,16 @@ export default async function NiveauPage({
               </p>
               <p className="font-display mt-1 text-4xl">S{item.n}</p>
               {item.infos.length > 0 ? (
-                <p className="mt-2 inline-block rounded-full border-2 border-ink bg-white px-3 py-1 text-[11px] font-black uppercase tracking-widest">
-                  {item.infos.join(" · ")}
-                </p>
+                <div className="mt-2 flex flex-wrap gap-1.5">
+                  {item.infos.map((info) => (
+                    <span
+                      key={info}
+                      className="rounded-full border-2 border-ink bg-white px-3 py-1 text-[11px] font-black uppercase tracking-widest"
+                    >
+                      {info}
+                    </span>
+                  ))}
+                </div>
               ) : (
                 <p className="mt-2 inline-block rounded-full border-2 border-ink bg-white px-3 py-1 text-[11px] font-black uppercase tracking-widest">
                   Bientôt disponible

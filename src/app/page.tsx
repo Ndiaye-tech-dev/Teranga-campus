@@ -209,14 +209,16 @@ export default async function HomePage() {
       <ContinueReading />
 
       {/* ============ MARQUEE ============ */}
-      <div className="rotate-[-1.2deg] scale-[1.02] overflow-hidden border-y-[2.5px] border-ink bg-ink py-3">
-        <div className="animate-marquee flex w-max items-center gap-6 pr-6">
-          {[...MARQUEE, ...MARQUEE].map((item, i) => (
-            <span key={i} className="flex items-center gap-6 text-sm font-black uppercase tracking-widest text-white">
-              {item}
-              <Star className={`h-4 w-4 ${i % 2 ? "fill-sun text-sun" : "fill-candy text-candy"}`} />
-            </span>
-          ))}
+      <div className="overflow-hidden py-2">
+        <div className="-mx-4 rotate-[-1.2deg] overflow-hidden border-y-[2.5px] border-ink bg-ink py-3">
+          <div className="animate-marquee flex w-max items-center gap-6 pr-6">
+            {[...MARQUEE, ...MARQUEE].map((item, i) => (
+              <span key={i} className="flex items-center gap-6 whitespace-nowrap text-sm font-black uppercase tracking-widest text-white">
+                {item}
+                <Star className={`h-4 w-4 shrink-0 ${i % 2 ? "fill-sun text-sun" : "fill-candy text-candy"}`} />
+              </span>
+            ))}
+          </div>
         </div>
       </div>
 
@@ -251,8 +253,8 @@ export default async function HomePage() {
               const Icon = style.icon;
               const infos = [
                 matieres > 0 ? plural(matieres, "matière") : null,
-                docs > 0 ? plural(docs, "document") : null,
-              ].filter(Boolean);
+                docs > 0 ? plural(docs, "doc") : null,
+              ].filter(Boolean) as string[];
               return (
                 <Link
                   key={niveau.id}
@@ -263,11 +265,18 @@ export default async function HomePage() {
                     <span className={`inline-flex h-12 w-12 items-center justify-center rounded-2xl border-[2.5px] border-ink ${style.iconBg}`}>
                       <Icon className="h-6 w-6" />
                     </span>
-                    <p className="font-display mt-4 text-3xl">{niveau.nom}</p>
+                    <p className="font-display mt-4 text-3xl leading-[1.05] text-balance">{niveau.nom}</p>
                     {infos.length > 0 ? (
-                      <p className="mt-2 inline-block rounded-full border-2 border-ink bg-white px-3 py-1 text-[11px] font-black uppercase tracking-widest">
-                        {infos.join(" · ")}
-                      </p>
+                      <div className="mt-2 flex flex-wrap gap-1.5">
+                        {infos.map((info) => (
+                          <span
+                            key={info}
+                            className="rounded-full border-2 border-ink bg-white px-3 py-1 text-[11px] font-black uppercase tracking-widest"
+                          >
+                            {info}
+                          </span>
+                        ))}
+                      </div>
                     ) : null}
                   </div>
                   <div className="flex items-center justify-between bg-white px-6 py-4">
