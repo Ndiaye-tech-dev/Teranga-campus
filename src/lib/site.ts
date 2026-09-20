@@ -3,6 +3,7 @@ import { getContactEmail, getContactLinkedin, getContactPhone } from "@/lib/env"
 export const SITE = {
   name: "Teranga Campus",
   developer: "Ablaye Ndiaye",
+  pseudo: "NdiayeTech",
   role: "Étudiant en Licence 2 — Sciences Économiques et de Gestion",
   university: "Université Amadou Makhtar Mbow",
   department: "Sciences Économiques et de Gestion (SEG)",

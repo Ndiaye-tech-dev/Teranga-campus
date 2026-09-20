@@ -24,7 +24,7 @@ export function ContinueReading() {
         </p>
         <ul className="mt-4 grid gap-3 sm:grid-cols-3">
           {items.map(({ id, entry }) => (
-            <li key={id}>
+            <li key={id} className="min-w-0">
               <Link
                 href={entry.href}
                 className="group flex items-center gap-3 rounded-2xl border-2 border-white/25 bg-white/10 px-4 py-3 transition-colors hover:bg-white/20"

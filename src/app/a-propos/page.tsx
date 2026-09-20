@@ -36,7 +36,7 @@ export default function AboutPage() {
             />
           </div>
           <p className="sticker absolute -bottom-3 left-1/2 -translate-x-1/2 bg-sun whitespace-nowrap">
-            C&apos;est moi
+            NdiayeTech
           </p>
         </div>
         <div>
@@ -45,7 +45,7 @@ export default function AboutPage() {
           </p>
           <h2 className="font-display mt-2 text-3xl">Ablaye Ndiaye</h2>
           <p className="mt-1 text-sm font-bold text-muted">
-            Étudiant en L2 SEG à l&apos;UAM
+            Étudiant en L2 SEG à l&apos;UAM · alias NdiayeTech
           </p>
           <div className="mt-5 space-y-4 font-medium leading-relaxed text-muted">
             <p>

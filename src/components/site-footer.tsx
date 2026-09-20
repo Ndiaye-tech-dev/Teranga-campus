@@ -98,7 +98,12 @@ export async function SiteFooter() {
             <p className="text-xs font-black uppercase tracking-[0.2em] text-candy">
               Contact
             </p>
-            <p className="mt-4 text-lg font-black">{SITE.developer}</p>
+            <p className="mt-4 text-lg font-black">
+              {SITE.developer}{" "}
+              <span className="whitespace-nowrap rounded-full border border-sun/60 bg-sun/15 px-2.5 py-0.5 align-middle font-sans text-xs font-black text-sun">
+                {SITE.pseudo}
+              </span>
+            </p>
             <p className="mt-1 text-sm text-white/70">{SITE.role}</p>
             <ul className="mt-4 space-y-2 text-sm font-semibold">
               {contact.email ? (
