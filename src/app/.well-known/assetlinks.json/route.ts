@@ -3,10 +3,10 @@
  * PWABuilder affiche une empreinte SHA-256 au moment de générer l'APK :
  * colle-la dans FINGERPRINTS ci-dessous, et mets le nom de package exact.
  */
-const PACKAGE_NAME = "com.teranga.campus.twa";
+const PACKAGE_NAME = "app.vercel.teranga_campus.twa";
 
 const FINGERPRINTS: string[] = [
-  // "AA:BB:CC:...:FF", // <- empreinte SHA-256 de PWABuilder
+  "44:AF:94:B6:F7:03:AD:0B:E9:D8:DA:67:11:61:24:CE:3E:20:7F:CA:62:1E:B5:B6:BC:E6:B3:F3:94:FE:99:B2",
 ];
 
 export async function GET() {
