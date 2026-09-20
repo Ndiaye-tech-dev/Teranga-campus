@@ -63,7 +63,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       data-scroll-behavior="smooth"
       className={`${outfit.variable} ${fraunces.variable} h-full antialiased`}
     >
-      <body className="flex min-h-full flex-col bg-paper pt-24 text-ink sm:pt-28">
+      <body className="flex min-h-full flex-col bg-paper pt-20 text-ink sm:pt-28">
         <SiteHeader />
         <main className="flex-1">{children}</main>
         <SiteFooter />

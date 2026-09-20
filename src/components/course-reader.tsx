@@ -106,7 +106,7 @@ export function CourseReader({
       <object
         data={viewUrl}
         type="application/pdf"
-        className={`w-full bg-paper ${full ? "min-h-0 flex-1" : "h-[70vh] min-h-[420px]"}`}
+        className={`w-full bg-paper ${full ? "min-h-0 flex-1" : "h-[70vh] min-h-[340px]"}`}
       >
         <div className="px-6 py-12 text-center">
           <p className="font-display text-xl">L&apos;aperçu est bloqué par ton navigateur.</p>
