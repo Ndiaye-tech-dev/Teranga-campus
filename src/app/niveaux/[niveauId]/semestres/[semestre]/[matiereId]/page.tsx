@@ -8,7 +8,7 @@ import {
   getModule,
   getNiveau,
 } from "@/lib/queries";
-import { semestrePath } from "@/lib/site";
+import { matierePath, semestrePath } from "@/lib/site";
 import { parseSemestre, semestreLabel } from "@/lib/types";
 
 export async function generateMetadata({
@@ -41,9 +41,10 @@ export default async function MatierePage({
   if (!moduleRow || moduleRow.semestre !== parsed) notFound();
 
   const documents = await getDocumentsByMatiere(matiereId);
+  const href = matierePath(niveau.id, parsed, matiere.id);
 
   return (
-    <div className="mx-auto max-w-6xl px-5 py-14">
+    <div className="mx-auto max-w-6xl px-5 py-10">
       <Breadcrumb
         items={[
           { href: "/", label: "Accueil" },
@@ -55,13 +56,15 @@ export default async function MatierePage({
           { label: matiere.nom },
         ]}
       />
-      <p className="text-sm text-muted">{moduleRow.nom}</p>
-      <h1 className="mt-1 font-serif text-4xl tracking-tight">{matiere.nom}</h1>
-      <p className="mt-3 text-muted">
-        Cours, travaux dirigés (avec correction) et flashcards
+      <p className="sticker bg-sun">{moduleRow.nom}</p>
+      <h1 className="font-display mt-4 text-4xl sm:text-5xl">{matiere.nom}</h1>
+      <p className="mt-3 max-w-xl font-medium text-muted">
+        Tout est là : le cours pour comprendre, le TD pour t&apos;entraîner,
+        les flashcards pour retenir. Clique sur un doc pour le lire, ou
+        télécharge-le.
       </p>
-      <div className="mt-10">
-        <MatiereDocuments documents={documents} />
+      <div className="mt-8">
+        <MatiereDocuments documents={documents} matiereHref={href} />
       </div>
     </div>
   );

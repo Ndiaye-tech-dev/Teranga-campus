@@ -1,8 +1,10 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { ArrowRight } from "lucide-react";
 import { Breadcrumb, EmptyState } from "@/components/ui";
 import {
+  getDocumentCounts,
   getMatieresByModule,
   getModulesByNiveauSemestre,
   getNiveau,
@@ -22,6 +24,8 @@ export async function generateMetadata({
   return { title: `${niveau.nom} · ${semestreLabel(parsed)}` };
 }
 
+const MODULE_COLORS = ["bg-sun", "bg-mint", "bg-candy", "bg-sky", "bg-white"];
+
 export default async function SemestrePage({
   params,
 }: {
@@ -39,9 +43,12 @@ export default async function SemestrePage({
       matieres: await getMatieresByModule(mod.id),
     })),
   );
+  const docCounts = await getDocumentCounts(
+    grouped.flatMap((g) => g.matieres.map((m) => m.id)),
+  );
 
   return (
-    <div className="mx-auto max-w-6xl px-5 py-14">
+    <div className="mx-auto max-w-6xl px-5 py-10">
       <Breadcrumb
         items={[
           { href: "/", label: "Accueil" },
@@ -49,41 +56,61 @@ export default async function SemestrePage({
           { label: semestreLabel(parsed) },
         ]}
       />
-      <p className="text-xs uppercase tracking-[0.2em] text-muted">Étape 3</p>
-      <h1 className="mt-2 font-serif text-4xl tracking-tight">
+      <p className="sticker bg-white">
         {niveau.nom} · {semestreLabel(parsed)}
-      </h1>
-      <p className="mt-3 text-muted">Matières organisées par module</p>
+      </p>
+      <h1 className="font-display mt-4 text-4xl sm:text-5xl">Tes matières</h1>
+      <p className="mt-3 max-w-lg font-medium text-muted">
+        Rangées par module. Clique sur ta matière pour voir les cours, TD et
+        flashcards.
+      </p>
 
-      <div className="mt-10 space-y-8">
+      <div className="mt-10 space-y-6">
         {grouped.length === 0 ? (
           <EmptyState
-            title="Aucun module pour ce semestre"
-            hint="Dans l’admin, créez des modules (ex. Module Économie 1) puis les matières. Si la page est vide alors que la base existait déjà, exécutez supabase/migration-v2.sql dans le SQL Editor de Supabase."
+            title="Rien ici pour l'instant"
+            hint="Les modules de ce semestre n'ont pas encore été ajoutés."
           />
         ) : (
-          grouped.map(({ module, matieres }) => (
+          grouped.map(({ module, matieres }, mi) => (
             <section
               key={module.id}
-              className="rounded-3xl border border-line bg-card p-6 sm:p-8"
+              className="card-pop overflow-hidden"
             >
-              <h2 className="font-serif text-2xl text-pine">{module.nom}</h2>
+              <div
+                className={`${MODULE_COLORS[mi % MODULE_COLORS.length]} flex flex-wrap items-center justify-between gap-2 border-b-[2.5px] border-ink px-6 py-4`}
+              >
+                <h2 className="font-display text-2xl">{module.nom}</h2>
+                <span className="rounded-full border-2 border-ink bg-white px-3 py-1 text-xs font-black">
+                  {matieres.length} matière{matieres.length > 1 ? "s" : ""}
+                </span>
+              </div>
               {matieres.length === 0 ? (
-                <p className="mt-4 text-sm text-muted">
-                  Aucune matière dans ce module pour l’instant.
+                <p className="bg-white px-6 py-5 text-sm font-bold text-muted">
+                  Pas encore de matière dans ce module.
                 </p>
               ) : (
-                <div className="mt-5 grid gap-3 sm:grid-cols-2">
-                  {matieres.map((matiere) => (
-                    <Link
-                      key={matiere.id}
-                      href={matierePath(niveau.id, parsed, matiere.id)}
-                      className="rounded-2xl border border-line bg-paper/70 px-5 py-4 transition-all duration-200 hover:-translate-y-0.5 hover:border-pine/30 hover:bg-white"
-                    >
-                      <p className="text-lg text-ink">{matiere.nom}</p>
-                      <p className="mt-1 text-sm text-muted">Cours, TD, flashcards →</p>
-                    </Link>
-                  ))}
+                <div className="grid gap-3 bg-white p-4 sm:grid-cols-2 sm:p-5">
+                  {matieres.map((matiere) => {
+                    const n = docCounts[matiere.id] ?? 0;
+                    return (
+                      <Link
+                        key={matiere.id}
+                        href={matierePath(niveau.id, parsed, matiere.id)}
+                        className="group flex items-center justify-between gap-3 rounded-2xl border-2 border-ink bg-paper px-5 py-4 shadow-[3px_3px_0_var(--ink)] transition-all hover:-translate-y-0.5 hover:bg-sun/40"
+                      >
+                        <span className="min-w-0">
+                          <span className="block truncate font-black">{matiere.nom}</span>
+                          <span className="mt-0.5 block text-xs font-bold text-muted">
+                            {n > 0
+                              ? `${n} document${n > 1 ? "s" : ""}`
+                              : "Pas encore de documents"}
+                          </span>
+                        </span>
+                        <ArrowRight className="h-5 w-5 shrink-0 transition-transform group-hover:translate-x-1" />
+                      </Link>
+                    );
+                  })}
                 </div>
               )}
             </section>

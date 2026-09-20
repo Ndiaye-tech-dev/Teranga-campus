@@ -44,9 +44,9 @@ export function SearchBar() {
   }, []);
 
   return (
-    <div ref={containerRef} className="relative w-full max-w-xs">
-      <div className="flex items-center gap-2 rounded-full border border-line bg-card px-3 py-1.5">
-        <Search className="h-4 w-4 text-muted" />
+    <div ref={containerRef} className="relative w-full sm:max-w-xs">
+      <div className="flex items-center gap-2 rounded-full border-2 border-ink bg-paper px-4 py-2 shadow-[3px_3px_0_var(--ink)] transition-shadow focus-within:shadow-[4px_4px_0_var(--ink)]">
+        <Search className="h-4 w-4 shrink-0 text-ink" />
         <input
           type="text"
           value={query}
@@ -55,8 +55,8 @@ export function SearchBar() {
             setOpen(true);
           }}
           onFocus={() => setOpen(true)}
-          placeholder="Rechercher une matière…"
-          className="w-full bg-transparent text-sm text-ink placeholder:text-muted/60 focus:outline-none"
+          placeholder="Cherche ta matière… (ex: compta)"
+          className="w-full bg-transparent text-sm font-semibold text-ink placeholder:font-medium placeholder:text-muted/70 focus:outline-none"
         />
         {query && (
           <button
@@ -65,30 +65,33 @@ export function SearchBar() {
               setQuery("");
               setResults([]);
             }}
-            className="text-muted hover:text-ink"
+            className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full border-2 border-ink bg-sun"
+            aria-label="Effacer"
           >
-            <X className="h-4 w-4" />
+            <X className="h-3.5 w-3.5" />
           </button>
         )}
       </div>
 
       {open && query.trim().length >= 2 && (
-        <div className="absolute left-0 right-0 top-full mt-2 max-h-80 overflow-y-auto rounded-2xl border border-line bg-card shadow-[0_20px_50px_-24px_rgba(11,18,32,0.25)] z-50">
+        <div className="absolute left-0 right-0 top-full z-50 mt-2 max-h-80 overflow-hidden overflow-y-auto rounded-3xl border-[2.5px] border-ink bg-white shadow-[6px_6px_0_var(--ink)]">
           {loading ? (
-            <p className="px-4 py-4 text-sm text-muted">Recherche…</p>
+            <p className="px-5 py-4 text-sm font-bold text-muted">Recherche… 🔎</p>
           ) : results.length === 0 ? (
-            <p className="px-4 py-4 text-sm text-muted">Aucun résultat.</p>
+            <p className="px-5 py-4 text-sm font-bold text-muted">
+              Rien trouvé… essaie « compta », « micro », « maths ».
+            </p>
           ) : (
-            <ul className="divide-y divide-line">
+            <ul className="divide-y-2 divide-ink/10">
               {results.map((r, i) => (
                 <li key={i}>
                   <Link
                     href={r.href}
                     onClick={() => setOpen(false)}
-                    className="block px-4 py-3 transition-colors hover:bg-paper"
+                    className="block px-5 py-3 transition-colors hover:bg-sun/30"
                   >
-                    <p className="text-sm font-medium text-ink">{r.title}</p>
-                    <p className="text-xs text-muted">{r.subtitle}</p>
+                    <p className="text-sm font-black text-ink">{r.title}</p>
+                    <p className="text-xs font-semibold text-muted">{r.subtitle}</p>
                   </Link>
                 </li>
               ))}

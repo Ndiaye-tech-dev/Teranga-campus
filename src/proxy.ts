@@ -1,7 +1,31 @@
 import { createServerClient } from "@supabase/ssr";
 import { NextResponse, type NextRequest } from "next/server";
 
+const MAINTENANCE_MODE = false;
+
+const ALLOWED_DURING_MAINTENANCE = [
+  "/",
+  "/favicon.ico",
+  "/logo.png",
+  "/ablaye.jpg",
+];
+
 export async function proxy(request: NextRequest) {
+  const { pathname } = request.nextUrl;
+
+  if (MAINTENANCE_MODE) {
+    const isAllowed =
+      ALLOWED_DURING_MAINTENANCE.includes(pathname) ||
+      pathname.startsWith("/_next") ||
+      pathname.startsWith("/api");
+
+    if (!isAllowed) {
+      const redirectUrl = request.nextUrl.clone();
+      redirectUrl.pathname = "/";
+      return NextResponse.redirect(redirectUrl);
+    }
+  }
+
   let supabaseResponse = NextResponse.next({ request });
 
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
@@ -59,5 +83,5 @@ export async function proxy(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/admin", "/admin/:path*"],
+  matcher: ["/((?!_next/static|_next/image).*)"],
 };

@@ -1,8 +1,14 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { ArrowRight } from "lucide-react";
 import { Breadcrumb } from "@/components/ui";
-import { getNiveau } from "@/lib/queries";
+import {
+  getDocumentCounts,
+  getMatieresByNiveau,
+  getModulesByNiveau,
+  getNiveau,
+} from "@/lib/queries";
 import { semestrePath } from "@/lib/site";
 
 export async function generateMetadata({
@@ -15,6 +21,10 @@ export async function generateMetadata({
   return { title: niveau?.nom ?? "Niveau" };
 }
 
+function plural(n: number, word: string) {
+  return `${n} ${word}${n > 1 ? "s" : ""}`;
+}
+
 export default async function NiveauPage({
   params,
 }: {
@@ -24,43 +34,65 @@ export default async function NiveauPage({
   const niveau = await getNiveau(niveauId);
   if (!niveau) notFound();
 
-  const semestres = [
-    {
-      n: 1 as const,
-      title: "Semestre 1",
-      hint: "Premier semestre — modules et matières",
-    },
-    {
-      n: 2 as const,
-      title: "Semestre 2",
-      hint: "Second semestre — modules et matières",
-    },
-  ];
+  const [modules, matieres] = await Promise.all([
+    getModulesByNiveau(niveauId),
+    getMatieresByNiveau(niveauId),
+  ]);
+  const docCounts = await getDocumentCounts(matieres.map((m) => m.id));
+
+  const semestres = ([1, 2] as const).map((n) => {
+    const mods = modules.filter((m) => m.semestre === n);
+    const mats = matieres.filter((m) => mods.some((mod) => mod.id === m.module_id));
+    const docs = mats.reduce((sum, m) => sum + (docCounts[m.id] ?? 0), 0);
+    const infos = [
+      mods.length > 0 ? plural(mods.length, "module") : null,
+      mats.length > 0 ? plural(mats.length, "matière") : null,
+      docs > 0 ? plural(docs, "document") : null,
+    ].filter(Boolean);
+    return { n, bg: n === 1 ? "bg-sun" : "bg-mint", infos };
+  });
 
   return (
-    <div className="mx-auto max-w-6xl px-5 py-14">
+    <div className="mx-auto max-w-6xl px-5 py-10">
       <Breadcrumb
         items={[{ href: "/", label: "Accueil" }, { label: niveau.nom }]}
       />
-      <p className="text-xs uppercase tracking-[0.2em] text-muted">Étape 2</p>
-      <h1 className="mt-2 font-serif text-4xl tracking-tight">{niveau.nom}</h1>
-      <p className="mt-3 text-muted">Choisissez un semestre</p>
+      <p className="sticker bg-white">{niveau.nom}</p>
+      <h1 className="font-display mt-4 text-4xl sm:text-5xl">
+        Quel semestre ?
+      </h1>
+      <p className="mt-3 max-w-lg font-medium text-muted">
+        Choisis ton semestre, tu verras ensuite les modules et les matières.
+      </p>
 
-      <div className="mt-10 grid gap-4 sm:grid-cols-2">
+      <div className="mt-10 grid gap-5 sm:grid-cols-2">
         {semestres.map((item) => (
           <Link
             key={item.n}
             href={semestrePath(niveau.id, item.n)}
-            className="group rounded-2xl border border-line bg-card p-8 transition-all duration-200 hover:-translate-y-0.5 hover:border-pine/25 hover:shadow-[0_12px_40px_-24px_rgba(30,58,138,0.55)]"
+            className="card-pop card-pop-hover -rotate-1 overflow-hidden"
           >
-            <p className="text-xs uppercase tracking-[0.18em] text-muted">
-              Semestre
-            </p>
-            <p className="mt-3 font-serif text-3xl text-pine">{item.title}</p>
-            <p className="mt-4 text-sm text-muted group-hover:text-ink">
-              {item.hint}
-            </p>
-            <p className="mt-8 text-sm text-pine">Voir les matières →</p>
+            <div className={`${item.bg} border-b-[2.5px] border-ink px-6 py-6`}>
+              <p className="text-xs font-black uppercase tracking-widest">
+                Semestre {item.n}
+              </p>
+              <p className="font-display mt-1 text-4xl">S{item.n}</p>
+              {item.infos.length > 0 ? (
+                <p className="mt-2 inline-block rounded-full border-2 border-ink bg-white px-3 py-1 text-[11px] font-black uppercase tracking-widest">
+                  {item.infos.join(" · ")}
+                </p>
+              ) : (
+                <p className="mt-2 inline-block rounded-full border-2 border-ink bg-white px-3 py-1 text-[11px] font-black uppercase tracking-widest">
+                  Bientôt disponible
+                </p>
+              )}
+            </div>
+            <div className="flex items-center justify-between bg-white px-6 py-4">
+              <span className="text-sm font-bold text-muted">Voir les matières</span>
+              <span className="btn-pop btn-primary px-4 py-2 text-sm">
+                Voir <ArrowRight className="h-4 w-4" />
+              </span>
+            </div>
           </Link>
         ))}
       </div>

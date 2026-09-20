@@ -159,6 +159,24 @@ export const getDocumentsByMatiere = cache(async (matiereId: string): Promise<Do
 
 
 
+/** Nombre de documents par matière, en une seule requête. */
+export const getDocumentCounts = cache(
+  async (matiereIds: string[]): Promise<Record<string, number>> => {
+    if (matiereIds.length === 0) return {};
+    const supabase = await createClient();
+    const { data, error } = await supabase
+      .from("documents")
+      .select("id, matiere_id")
+      .in("matiere_id", matiereIds);
+    if (error) return {};
+    const counts: Record<string, number> = {};
+    for (const row of data ?? []) {
+      counts[row.matiere_id] = (counts[row.matiere_id] ?? 0) + 1;
+    }
+    return counts;
+  },
+);
+
 export type SearchResult = {
   kind: "matiere" | "document";
   title: string;

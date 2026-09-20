@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import Image from "next/image";
+import Link from "next/link";
+import { ArrowRight, BookOpen, ClipboardList, Zap } from "lucide-react";
 import { ContactForm } from "@/components/contact-form";
 import { getSiteContact } from "@/lib/site";
 
@@ -11,164 +13,113 @@ export default function AboutPage() {
   const contact = getSiteContact();
 
   return (
-    <article className="mx-auto max-w-2xl px-5 py-16">
-      <p className="text-sm uppercase tracking-[0.22em] text-clay">À propos</p>
-      <h1 className="mt-3 font-serif text-4xl tracking-tight">
-        Plus qu&apos;une plateforme, une communauté
+    <div className="mx-auto max-w-6xl px-5 py-10">
+      <p className="sticker bg-white">À propos</p>
+      <h1 className="font-display mt-4 max-w-2xl text-4xl sm:text-5xl">
+        Un seul endroit pour tous les cours.
       </h1>
-      <div className="mt-8 space-y-5 text-[17px] leading-relaxed text-muted">
-        <p>
-          Teranga Campus est né d&apos;un constat simple, et d&apos;une
-          conviction : la réussite universitaire ne devrait jamais dépendre de
-          la chance de tomber sur le bon groupe WhatsApp au bon moment.
-        </p>
-        <p>
-          Ici, les cours de Sciences Économiques et de Gestion — de la
-          Licence 1 à la Licence 3 — sont enfin réunis au même endroit,
-          classés par semestre et par matière. Un seul réflexe à retenir :
-          Teranga Campus, plutôt que dix conversations différentes.
-        </p>
-      </div>
+      <p className="mt-4 max-w-xl font-medium leading-relaxed text-muted">
+        Teranga Campus rassemble les cours de SEG de l&apos;UAM, de la L1 à
+        la L3. Plus besoin de fouiller dix groupes WhatsApp pour un TD.
+      </p>
 
-      <section className="mx-auto max-w-4xl px-5 py-20">
-        <p className="text-xs uppercase tracking-[0.2em] text-clay">
-          L&apos;origine
-        </p>
-        <h2 className="mt-2 font-serif text-3xl text-ink">
-          Derrière chaque outil, il y a une histoire
-        </h2>
-        <div className="mt-6">
-          <Image
-            src="/ablaye.jpg"
-            alt="Ablaye Ndiaye"
-            width={220}
-            height={220}
-            className="float-left mb-4 mr-6 rounded-2xl object-cover shadow-[0_12px_40px_-24px_rgba(30,58,138,0.55)]"
-          />
-          <p className="leading-relaxed text-muted">
-            Je m&apos;appelle Ablaye Ndiaye, étudiant en Licence 2 Sciences
-            Économiques et de Gestion à l&apos;Université Amadou Makhtar
-            Mbow. Comme beaucoup d&apos;entre vous, j&apos;ai passé des heures
-            à chercher un TD égaré dans une conversation vieille de trois
-            mois, ou à demander à un camarade s&apos;il avait bien la version
-            corrigée d&apos;un cours.
-          </p>
-          <p className="mt-4 leading-relaxed text-muted">
-            En parallèle de mes études, je cultive une vraie passion pour la
-            technologie : le développement web, l&apos;automatisation, tout ce
-            qui permet de simplifier ce qui devrait l&apos;être. Un jour,
-            l&apos;évidence s&apos;est imposée : pourquoi ne pas mettre cette
-            passion au service de ma propre promotion ?
+      {/* Qui est derrière */}
+      <section className="card-pop mt-10 grid gap-8 p-7 sm:p-10 lg:grid-cols-[280px_1fr]">
+        <div className="relative mx-auto w-full max-w-[280px]">
+          <div className="card-pop -rotate-2 overflow-hidden !rounded-3xl">
+            <Image
+              src="/ablaye.jpg"
+              alt="Ablaye Ndiaye"
+              width={560}
+              height={560}
+              className="aspect-square w-full object-cover"
+            />
+          </div>
+          <p className="sticker absolute -bottom-3 left-1/2 -translate-x-1/2 bg-sun whitespace-nowrap">
+            C&apos;est moi
           </p>
         </div>
-        <div className="clear-both" />
-      </section>
-
-      <section className="border-y border-line bg-card/40">
-        <div className="mx-auto max-w-4xl px-5 py-20">
-          <p className="text-xs uppercase tracking-[0.2em] text-clay">
-            Le déclic
+        <div>
+          <p className="text-xs font-black uppercase tracking-widest text-clay">
+            Derrière le site
           </p>
-          <h2 className="mt-2 font-serif text-3xl text-ink">
-            Un problème que tout le monde connaît, mais que personne ne
-            résout
-          </h2>
-          <p className="mt-6 leading-relaxed text-muted">
-            Nouvel arrivant en Licence 1, étudiant en pleine année en L2 ou
-            L3, ou déjà diplômé qui repense à ces années : tout le monde a
-            vécu la même frustration. Les supports de cours circulent, se
-            perdent, changent de version sans prévenir — et personne n&apos;a
-            jamais eu un endroit unique où tout retrouver.
+          <h2 className="font-display mt-2 text-3xl">Ablaye Ndiaye</h2>
+          <p className="mt-1 text-sm font-bold text-muted">
+            Étudiant en L2 SEG à l&apos;UAM
           </p>
-          <ul className="mt-6 space-y-3 text-muted">
-            <li className="flex gap-3">
-              <span className="text-pine">—</span>
-              Un nouvel étudiant ne sait même pas par où commencer
-            </li>
-            <li className="flex gap-3">
-              <span className="text-pine">—</span>
-              Des heures perdues à fouiller dix groupes WhatsApp pour un
-              seul document
-            </li>
-            <li className="flex gap-3">
-              <span className="text-pine">—</span>
-              Des fichiers qui s&apos;égarent, se dupliquent, ou disparaissent
-              purement et simplement
-            </li>
-            <li className="flex gap-3">
-              <span className="text-pine">—</span>
-              Jamais la certitude d&apos;avoir la bonne version d&apos;un
-              cours avant un examen
-            </li>
-          </ul>
+          <div className="mt-5 space-y-4 font-medium leading-relaxed text-muted">
+            <p>
+              Comme beaucoup, j&apos;ai perdu des heures à chercher un cours
+              égaré dans une vieille conversation, ou à demander autour de moi
+              si quelqu&apos;un avait la bonne version d&apos;un TD.
+            </p>
+            <p>
+              À côté des cours, je passe mon temps sur le web et la tech.
+              Alors j&apos;ai fait le lien : un site simple, où chaque matière
+              a ses documents au même endroit, accessibles sans compte, même
+              sur téléphone.
+            </p>
+            <p>
+              C&apos;est comme ça qu&apos;est né Teranga Campus. Je le
+              construis petit à petit, en fonction de ce qui vous manque
+              vraiment.
+            </p>
+          </div>
         </div>
       </section>
 
-      <section className="mx-auto max-w-4xl px-5 py-20">
-        <p className="text-xs uppercase tracking-[0.2em] text-clay">
-          La réponse
-        </p>
-        <h2 className="mt-2 font-serif text-3xl text-ink">
-          Un seul endroit, pour tout retrouver
-        </h2>
-        <p className="mt-6 leading-relaxed text-muted">
-          C&apos;est de ce constat qu&apos;est né Teranga Campus : une
-          plateforme qui centralise tous les cours de la filière, organisés
-          clairement par niveau, semestre et matière. Pour chaque cours, les
-          documents essentiels — le cours, le TD, sa correction, et des
-          flashcards de révision — sont réunis au même endroit, sans jamais
-          se perdre.
-        </p>
-        <p className="mt-4 leading-relaxed text-muted">
-          Et parce qu&apos;un outil qui simplifie la vie doit lui-même être
-          simple, tout est accessible gratuitement, sans création de compte,
-          depuis un téléphone, une tablette ou un ordinateur — partout où une
-          connexion internet vous accompagne.
-        </p>
-      </section>
-
-      <section className="border-y border-line bg-card/40">
-        <div className="mx-auto max-w-4xl px-5 py-20">
-          <p className="text-xs uppercase tracking-[0.2em] text-clay">
-            L&apos;étape suivante
-          </p>
-          <h2 className="mt-2 font-serif text-3xl text-ink">
-            Ce n&apos;est qu&apos;un début
-          </h2>
-          <p className="mt-6 leading-relaxed text-muted">
-            Teranga Campus est aujourd&apos;hui en phase de test — une
-            première version, pensée pour évoluer avec ceux qui
-            l&apos;utilisent. L&apos;ambition ne s&apos;arrête pas là :
-            enrichir le contenu, affiner l&apos;expérience de navigation, et
-            imaginer ensemble les fonctionnalités qui manquent encore.
-          </p>
-          <p className="mt-4 leading-relaxed text-muted">
-            Ce projet grandira avec sa communauté, pas sans elle. Une
-            suggestion, un document à ajouter, une envie de contribuer ?
-            Chaque retour compte, et chaque collaboration est la bienvenue
-            pour faire de Teranga Campus la référence de la filière.
-          </p>
+      {/* Ce que tu y trouves */}
+      <section className="mt-8">
+        <h2 className="font-display text-3xl">Ce que tu y trouves</h2>
+        <div className="mt-6 grid gap-5 sm:grid-cols-3">
+          {[
+            { icon: BookOpen, bg: "bg-sun", t: "Les cours", d: "Les supports complets, matière par matière." },
+            { icon: ClipboardList, bg: "bg-mint", t: "Les TD + corrigés", d: "Pour t'entraîner avec la correction à côté." },
+            { icon: Zap, bg: "bg-candy text-white", t: "Les flashcards", d: "L'essentiel à revoir avant un examen." },
+          ].map((c, i) => (
+            <div key={c.t} className={`card-pop p-6 ${i % 2 ? "rotate-1" : "-rotate-1"}`}>
+              <span className={`inline-flex h-12 w-12 items-center justify-center rounded-2xl border-[2.5px] border-ink ${c.bg}`}>
+                <c.icon className="h-6 w-6" />
+              </span>
+              <h3 className="font-display mt-4 text-2xl">{c.t}</h3>
+              <p className="mt-2 text-sm font-medium leading-relaxed text-muted">{c.d}</p>
+            </div>
+          ))}
         </div>
+        <Link href="/#niveaux" className="btn-pop btn-grape mt-6 px-6 py-3 text-sm">
+          Voir les cours <ArrowRight className="h-4 w-4" />
+        </Link>
       </section>
 
-      <section className="mt-14 border-t border-line pt-10">
-        <h2 className="font-serif text-2xl text-ink">Parlons-en</h2>
-        <p className="mt-3 mb-2 text-muted">
-          Une question, un document manquant, une idée à proposer ? Écrivez-moi,
-          je réponds toujours.
+      {/* Et après */}
+      <section className="card-pop mt-8 !bg-ink !text-white px-7 py-8 sm:px-10">
+        <h2 className="font-display text-3xl">Et la suite ?</h2>
+        <p className="mt-3 max-w-2xl font-medium leading-relaxed text-white/75">
+          Le site est encore jeune. J&apos;ajoute les documents au fur et à
+          mesure, et je réfléchis aux prochaines fonctionnalités (des quiz,
+          peut-être). Si tu as une idée, un document qui manque, ou si tu vois
+          une erreur : écris-moi. C&apos;est comme ça que le site avancera.
+        </p>
+      </section>
+
+      {/* Contact */}
+      <section className="card-pop mt-8 px-7 py-8 sm:px-10">
+        <h2 className="font-display text-3xl">Parlons-en</h2>
+        <p className="mt-2 font-medium text-muted">
+          Une question, un document manquant, une idée ? Écris-moi, je réponds.
         </p>
         {contact.phone ? (
-          <p className="mb-6 text-sm text-muted">
-            Téléphone :{" "}
-            <a href={`tel:${contact.phone.replace(/\s/g, "")}`} className="text-pine">
+          <p className="mt-3 text-sm font-bold">
+            Tél :{" "}
+            <a href={`tel:${contact.phone.replace(/\s/g, "")}`} className="text-grape underline decoration-sun decoration-2 underline-offset-4">
               {contact.phone}
             </a>
           </p>
-        ) : (
-          <div className="mb-6" />
-        )}
-        <ContactForm email={contact.email} />
+        ) : null}
+        <div className="mt-5">
+          <ContactForm email={contact.email} />
+        </div>
       </section>
-    </article>
+    </div>
   );
 }
