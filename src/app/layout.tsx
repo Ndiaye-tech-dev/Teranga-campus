@@ -4,6 +4,7 @@ import { ScrollReveal } from "@/components/scroll-reveal";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
 import { SwRegister } from "@/components/sw-register";
+import { ViewModeEffect } from "@/components/view-mode-switch";
 import "./globals.css";
 
 const outfit = Outfit({
@@ -96,6 +97,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         <SiteFooter />
         <ScrollReveal />
         <SwRegister />
+        <ViewModeEffect />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{

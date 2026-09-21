@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { ArrowUpRight, Mail, Phone } from "lucide-react";
+import { ViewModeSwitch } from "@/components/view-mode-switch";
 import { Logo } from "@/components/logo";
 import { hasSupabaseConfig } from "@/lib/env";
 import { getNiveaux } from "@/lib/queries";
@@ -130,9 +131,12 @@ export async function SiteFooter() {
           </div>
         </div>
 
-        <div className="flex flex-col gap-2 border-t-2 border-white/15 px-6 py-5 text-xs text-white/50 sm:flex-row sm:items-center sm:justify-between sm:px-10">
-          <p>© {year} {SITE.name} · Fait à Kaolack</p>
-          <p>Par {SITE.developer} · Pour les étudiants SEG de l&apos;UAM.</p>
+        <div className="flex flex-col gap-3 border-t-2 border-white/15 px-6 py-5 text-xs text-white/50 sm:px-10">
+          <ViewModeSwitch />
+          <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+            <p>© {year} {SITE.name} · Fait à Kaolack</p>
+            <p>Par {SITE.developer} · Pour les étudiants SEG de l&apos;UAM.</p>
+          </div>
         </div>
       </div>
     </footer>
