@@ -76,7 +76,7 @@ export function SearchBar() {
       {open && query.trim().length >= 2 && (
         <div className="absolute left-0 right-0 top-full z-50 mt-2 max-h-80 overflow-hidden overflow-y-auto rounded-3xl border-[2.5px] border-ink bg-white shadow-[6px_6px_0_var(--ink)]">
           {loading ? (
-            <p className="px-5 py-4 text-sm font-bold text-muted">Recherche… 🔎</p>
+            <p className="px-5 py-4 text-sm font-bold text-muted">Recherche…</p>
           ) : results.length === 0 ? (
             <p className="px-5 py-4 text-sm font-bold text-muted">
               Rien trouvé… essaie « compta », « micro », « maths ».

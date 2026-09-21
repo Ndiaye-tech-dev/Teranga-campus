@@ -1,13 +1,15 @@
 import Link from "next/link";
-import { ArrowUpRight, Mail, Phone } from "lucide-react";
+import { ArrowUpRight, BookOpen, Mail, Pencil, Phone, Smartphone, Zap } from "lucide-react";
+import { TikTokIcon, WhatsAppIcon } from "@/components/brand-icons";
 import { ViewModeSwitch } from "@/components/view-mode-switch";
 import { Logo } from "@/components/logo";
 import { hasSupabaseConfig } from "@/lib/env";
 import { getNiveaux } from "@/lib/queries";
-import { getSiteContact, SITE } from "@/lib/site";
+import { getSiteContact, getSiteSocial, SITE } from "@/lib/site";
 
 export async function SiteFooter() {
   const contact = getSiteContact();
+  const social = getSiteSocial();
   let niveaux: Awaited<ReturnType<typeof getNiveaux>> = [];
   if (hasSupabaseConfig()) {
     try {
@@ -27,23 +29,50 @@ export async function SiteFooter() {
           <div>
             <p className="sticker bg-sun text-ink">100% gratuit · sans compte</p>
             <p className="font-display mt-4 max-w-md text-3xl text-white sm:text-4xl">
-              Tes cours t&apos;attendent. Lance-toi.
+              Tes cours t&apos;attendent.
+            </p>
+            <p className="mt-3 max-w-md text-sm leading-relaxed text-white/70">
+              Nouveautés, entraide entre étudiants, signalements : tout se
+              passe dans le groupe WhatsApp. Les projets et les coulisses,
+              c&apos;est sur TikTok.
             </p>
           </div>
-          <Link
-            href="/#niveaux"
-            className="btn-pop bg-white px-6 py-3 text-sm text-ink"
-          >
-            Voir les niveaux
-            <ArrowUpRight className="h-4 w-4" />
-          </Link>
+          <div className="flex flex-wrap gap-3">
+            <Link
+              href="/#niveaux"
+              className="btn-pop bg-white px-6 py-3 text-sm text-ink"
+            >
+              Voir les niveaux
+              <ArrowUpRight className="h-4 w-4" />
+            </Link>
+            {social.whatsapp ? (
+              <a
+                href={social.whatsapp}
+                target="_blank"
+                rel="noreferrer"
+                className="btn-pop btn-mint px-6 py-3 text-sm"
+              >
+                <WhatsAppIcon className="h-4 w-4" /> Rejoindre le groupe
+              </a>
+            ) : null}
+            {social.tiktok ? (
+              <a
+                href={social.tiktok}
+                target="_blank"
+                rel="noreferrer"
+                className="btn-pop bg-white px-6 py-3 text-sm text-ink"
+              >
+                <TikTokIcon className="h-4 w-4 text-ink" /> Suivre sur TikTok
+              </a>
+            ) : null}
+          </div>
         </div>
 
         <div className="grid gap-10 px-6 py-12 sm:grid-cols-2 sm:px-10 lg:grid-cols-4">
           <div className="sm:col-span-2 lg:col-span-1">
             <div className="flex items-center gap-3">
-              <span className="flex h-11 w-11 items-center justify-center overflow-hidden rounded-2xl border-2 border-white/80 bg-sun">
-                <Logo className="h-7 w-7 object-contain" />
+              <span className="flex h-12 w-12 items-center justify-center overflow-hidden rounded-2xl border-2 border-white/80 bg-white p-0.5">
+                <Logo variant="mark" className="h-full w-full" />
               </span>
               <p className="text-xl font-black tracking-tight">{SITE.name}</p>
             </div>
@@ -88,10 +117,18 @@ export async function SiteFooter() {
               Au programme
             </p>
             <ul className="mt-4 space-y-2.5 text-sm text-white/75">
-              <li>📚 Cours magistraux en PDF</li>
-              <li>✏️ TD + corrections</li>
-              <li>⚡ Flashcards de révision</li>
-              <li>📱 100% mobile friendly</li>
+              <li className="flex items-center gap-2.5">
+                <BookOpen className="h-4 w-4 shrink-0 text-sun" /> Cours magistraux en PDF
+              </li>
+              <li className="flex items-center gap-2.5">
+                <Pencil className="h-4 w-4 shrink-0 text-sun" /> TD + corrections
+              </li>
+              <li className="flex items-center gap-2.5">
+                <Zap className="h-4 w-4 shrink-0 text-sun" /> Flashcards de révision
+              </li>
+              <li className="flex items-center gap-2.5">
+                <Smartphone className="h-4 w-4 shrink-0 text-sun" /> 100% mobile friendly
+              </li>
             </ul>
           </div>
 
@@ -99,12 +136,7 @@ export async function SiteFooter() {
             <p className="text-xs font-black uppercase tracking-[0.2em] text-candy">
               Contact
             </p>
-            <p className="mt-4 text-lg font-black">
-              {SITE.developer}{" "}
-              <span className="whitespace-nowrap rounded-full border border-sun/60 bg-sun/15 px-2.5 py-0.5 align-middle font-sans text-xs font-black text-sun">
-                {SITE.pseudo}
-              </span>
-            </p>
+            <p className="mt-4 text-lg font-black">{SITE.pseudo}</p>
             <p className="mt-1 text-sm text-white/70">{SITE.role}</p>
             <ul className="mt-4 space-y-2 text-sm font-semibold">
               {contact.email ? (
@@ -135,7 +167,7 @@ export async function SiteFooter() {
           <ViewModeSwitch />
           <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
             <p>© {year} {SITE.name} · Fait à Kaolack</p>
-            <p>Par {SITE.developer} · Pour les étudiants SEG de l&apos;UAM.</p>
+            <p>Par {SITE.pseudo} · Pour les étudiants de l&apos;UFR SEG de l&apos;UAM.</p>
           </div>
         </div>
       </div>

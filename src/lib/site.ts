@@ -1,15 +1,21 @@
-import { getContactEmail, getContactLinkedin, getContactPhone } from "@/lib/env";
+import {
+  getContactEmail,
+  getContactLinkedin,
+  getContactPhone,
+  getTiktokUrl,
+  getWhatsAppUrl,
+} from "@/lib/env";
 
 export const SITE = {
   name: "Teranga Campus",
   developer: "Ablaye Ndiaye",
   pseudo: "NdiayeTech",
-  role: "Étudiant en Licence 2 — Sciences Économiques et de Gestion",
+  role: "Étudiant à l'UFR SEG — Licence 2",
   university: "Université Amadou Makhtar Mbow",
-  department: "Sciences Économiques et de Gestion (SEG)",
+  department: "UFR Sciences Économiques et de Gestion",
   city: "Diamniadio, Sénégal",
   tagline:
-    "Les cours de Sciences Économiques et de Gestion, de la Licence 1 à la Licence 3, rassemblés au même endroit.",
+    "Les cours de l'UFR Sciences Économiques et de Gestion, de la Licence 1 à la Licence 3, rassemblés au même endroit.",
 };
 
 export function getSiteContact() {
@@ -17,6 +23,13 @@ export function getSiteContact() {
     email: getContactEmail(),
     phone: getContactPhone(),
     linkedin: getContactLinkedin(),
+  };
+}
+
+export function getSiteSocial() {
+  return {
+    whatsapp: getWhatsAppUrl(),
+    tiktok: getTiktokUrl(),
   };
 }
 

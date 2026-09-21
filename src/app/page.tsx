@@ -1,4 +1,3 @@
-import type { CSSProperties } from "react";
 import Link from "next/link";
 import {
   ArrowRight,
@@ -15,6 +14,7 @@ import {
   Star,
   Zap,
 } from "lucide-react";
+import { TikTokIcon, WhatsAppIcon } from "@/components/brand-icons";
 import { ContinueReading } from "@/components/continue-reading";
 import { SetupBanner } from "@/components/ui";
 import { hasSupabaseConfig } from "@/lib/env";
@@ -24,18 +24,9 @@ import {
   getModulesByNiveau,
   getNiveaux,
 } from "@/lib/queries";
+import { getSiteSocial } from "@/lib/site";
 
 export const dynamic = "force-dynamic";
-
-const MARQUEE = [
-  "Cours complets",
-  "TD corrigés",
-  "Flashcards",
-  "100% gratuit",
-  "Sans compte",
-  "Sur téléphone",
-  "L1 · L2 · L3",
-];
 
 const LEVEL_STYLES = [
   { bg: "bg-sun", iconBg: "bg-ink text-sun", icon: GraduationCap, tilt: "-rotate-1" },
@@ -99,25 +90,24 @@ export default async function HomePage() {
           <div>
             <p className="sticker pop-in bg-white">
               <Sparkles className="h-4 w-4 text-clay" />
-              UAM · SEG · Diamniadio — L1 → L3
+              UAM · UFR SEG · Diamniadio — L1 → L3
             </p>
             <h1 className="font-display pop-in mt-6 text-[13vw] sm:text-6xl lg:text-7xl">
-              Tous tes cours SEG.
+              Tous les cours de l&apos;UFR SEG,
               <br />
               <span className="relative inline-block bg-ink px-3 py-1 text-sun -rotate-1">
-                Zéro galère.
+                au même endroit.
               </span>
             </h1>
             <p className="fade-up fade-up-delay-1 mt-6 max-w-lg text-lg leading-relaxed text-muted">
               Cours, TD, corrections et flashcards de la Licence 1 à la
               Licence 3, réunis au même endroit.{" "}
               <strong className="text-ink">Gratuit, sans compte</strong>,
-              lisible sur ton téléphone. Fini la chasse au PDF dans 10 groupes
-              WhatsApp.
+              directement sur ton téléphone.
             </p>
             <div className="fade-up fade-up-delay-2 mt-8 flex flex-wrap items-center gap-4">
               <a href="#niveaux" className="btn-pop btn-grape px-7 py-3.5 text-base">
-                Trouver mon niveau
+                Voir les niveaux
                 <ArrowRight className="h-5 w-5" />
               </a>
               <Link
@@ -153,9 +143,9 @@ export default async function HomePage() {
               </div>
               <div className="space-y-3 bg-white p-5">
                 {[
-                  { icon: BookOpen, label: "Cours complet — 42 pages", chip: "PDF", chipBg: "bg-grape text-white" },
-                  { icon: ClipboardList, label: "TD n°3 + correction", chip: "Corrigé", chipBg: "bg-mint" },
-                  { icon: Layers, label: "24 flashcards essentielles", chip: "Réviser", chipBg: "bg-candy text-white" },
+                  { icon: BookOpen, label: "Cours complet — PDF", chip: "Lire", chipBg: "bg-grape text-white" },
+                  { icon: ClipboardList, label: "TD + correction", chip: "Corrigé", chipBg: "bg-mint" },
+                  { icon: Layers, label: "Flashcards à réviser", chip: "Réviser", chipBg: "bg-candy text-white" },
                 ].map((row) => (
                   <div
                     key={row.label}
@@ -179,12 +169,6 @@ export default async function HomePage() {
               </div>
             </div>
 
-            <div className="animate-float absolute -left-4 top-8 rounded-2xl border-[2.5px] border-ink bg-candy px-3 py-2 text-xs font-black text-white shadow-[4px_4px_0_var(--ink)]" style={{ "--rot": "-6deg" } as CSSProperties}>
-              Cours + TD + flashcards
-            </div>
-            <div className="animate-float absolute -right-3 bottom-16 rounded-2xl border-[2.5px] border-ink bg-white px-3 py-2 text-xs font-black shadow-[4px_4px_0_var(--ink)]" style={{ "--rot": "5deg", animationDelay: "1.2s" } as CSSProperties}>
-              Sans compte, gratuit
-            </div>
           </div>
         </div>
 
@@ -208,28 +192,13 @@ export default async function HomePage() {
 
       <ContinueReading />
 
-      {/* ============ MARQUEE ============ */}
-      <div className="overflow-hidden py-2">
-        <div className="-mx-4 rotate-[-1.2deg] overflow-hidden border-y-[2.5px] border-ink bg-ink py-3">
-          <div className="animate-marquee flex w-max items-center gap-6 pr-6">
-            {[...MARQUEE, ...MARQUEE].map((item, i) => (
-              <span key={i} className="flex items-center gap-6 whitespace-nowrap text-sm font-black uppercase tracking-widest text-white">
-                {item}
-                <Star className={`h-4 w-4 shrink-0 ${i % 2 ? "fill-sun text-sun" : "fill-candy text-candy"}`} />
-              </span>
-            ))}
-          </div>
-        </div>
-      </div>
-
       {/* ============ NIVEAUX ============ */}
       <section id="niveaux" className="mx-auto max-w-6xl scroll-mt-28 px-5 py-20">
         <div className="flex flex-wrap items-end justify-between gap-4">
           <div>
-            <p className="sticker bg-mint">Étape 1 — choisis ton année</p>
+            <p className="sticker bg-mint">Première étape</p>
             <h2 className="font-display mt-4 text-4xl sm:text-5xl">
-              T&apos;es en quelle{" "}
-              <span className="font-serif-accent font-medium">licence ?</span>
+              Choisis ton niveau
             </h2>
           </div>
           <p className="max-w-sm text-sm font-semibold leading-relaxed text-muted">
@@ -297,9 +266,9 @@ export default async function HomePage() {
       {/* ============ COMMENT ÇA MARCHE ============ */}
       <section className="border-y-[2.5px] border-ink bg-white">
         <div className="mx-auto max-w-6xl px-5 py-20">
-          <p className="sticker bg-sun">Simple comme un message WhatsApp</p>
+          <p className="sticker bg-sun">En trois étapes</p>
           <h2 className="font-display mt-4 max-w-xl text-4xl sm:text-5xl">
-            Ton cours en 3 clics, pas en 3 heures.
+            Ton cours en trois étapes.
           </h2>
           <div className="mt-10 grid gap-5 md:grid-cols-3">
             {[
@@ -324,19 +293,19 @@ export default async function HomePage() {
 
       {/* ============ FINI LA GALÈRE ============ */}
       <section className="mx-auto max-w-6xl px-5 py-20">
-        <p className="sticker bg-candy text-white">Le constat — on l&apos;a tous vécu</p>
+        <p className="sticker bg-candy text-white">Le problème</p>
         <h2 className="font-display mt-4 max-w-2xl text-4xl sm:text-5xl">
-          Fini les PDF perdus dans les groupes.
+          Tous les PDF, au même endroit.
         </h2>
         <div className="mt-10 grid gap-5 sm:grid-cols-2">
           {[
-            { title: "« C&apos;est dans quel groupe déjà ? »", text: "Plus besoin de fouiller 10 conversations WhatsApp vieilles de 3 mois pour un seul TD.", bg: "bg-white" },
-            { title: "« C&apos;est la bonne version ? »", text: "Chaque matière affiche la version de référence : cours, TD et correction assortie.", bg: "bg-sun" },
-            { title: "« Je révise dans le bus »", text: "Tout se lit sur téléphone, tablette ou PC. Tu télécharges pour le hors-ligne, c'est tout.", bg: "bg-mint" },
-            { title: "« Je suis nouveau, je commence où ? »", text: "L1 → semestre → matière. Le parcours est guidé dès la première visite, même à 2h du mat avant un partiel.", bg: "bg-white" },
+            { title: "Tout est rangé", text: "Chaque matière a ses documents au même endroit. Plus rien ne se perd.", bg: "bg-white" },
+            { title: "La bonne version", text: "Cours, TD et correction assortis, sans doublons qui traînent.", bg: "bg-sun" },
+            { title: "Sur téléphone", text: "Lecture en ligne ou PDF téléchargé pour réviser hors-ligne.", bg: "bg-mint" },
+            { title: "Dès la L1", text: "Licence, semestre, matière : le chemin est indiqué à chaque étape.", bg: "bg-white" },
           ].map((c, i) => (
             <div key={i} className={`card-pop p-6 sm:p-7 ${c.bg} ${i % 2 ? "rotate-1" : "-rotate-1"}`}>
-              <h3 className="font-display text-2xl" dangerouslySetInnerHTML={{ __html: c.title }} />
+              <h3 className="font-display text-2xl">{c.title}</h3>
               <p className="mt-2 font-medium leading-relaxed text-muted">{c.text}</p>
             </div>
           ))}
@@ -382,18 +351,17 @@ export default async function HomePage() {
           <div>
             <p className="sticker bg-white">Questions fréquentes</p>
             <h2 className="font-display mt-4 text-4xl sm:text-5xl">
-              On te dit{" "}
-              <span className="font-serif-accent font-medium">tout.</span>
+              Bon à savoir
             </h2>
             <p className="mt-4 font-medium leading-relaxed text-muted">
-              Toujours un doute ? La page{" "}
+              Une question ? La page{" "}
               <Link href="/a-propos" className="font-black text-grape underline decoration-sun decoration-[3px] underline-offset-4">
                 À propos
               </Link>{" "}
-              raconte toute l&apos;histoire du projet — et comment contribuer.
+              présente le projet et comment y participer.
             </p>
             <Link href="/a-propos" className="btn-pop btn-accent mt-6 px-6 py-3 text-sm">
-              Poser une question <ArrowUpRight className="h-4 w-4" />
+              Voir la page À propos <ArrowUpRight className="h-4 w-4" />
             </Link>
           </div>
           <div className="space-y-3">
@@ -401,7 +369,7 @@ export default async function HomePage() {
               { q: "C'est vraiment gratuit ?", a: "Oui, à 100%. Pas d'abonnement, pas de frais cachés, pas de compte premium. Le projet est fait par un étudiant, pour les étudiants." },
               { q: "Faut-il créer un compte ?", a: "Non. Tu arrives, tu cliques sur ton niveau, tu lis. C'est tout. Aucune inscription, aucun e-mail demandé pour consulter les cours." },
               { q: "Ça marche sur téléphone ?", a: "C'est même pensé d'abord pour le téléphone : lecture en ligne, téléchargement PDF pour le hors-ligne, navigation au pouce." },
-              { q: "Quels niveaux sont couverts ?", a: "La Licence 1, la Licence 2 et la Licence 3 de SEG à l'UAM (Université Amadou Makhtar Mbow, Diamniadio), semestre par semestre." },
+              { q: "Quels niveaux sont couverts ?", a: "La Licence 1, la Licence 2 et la Licence 3 de l'UFR SEG à l'UAM (Diamniadio), semestre par semestre." },
               { q: "Je peux aider / signaler une erreur ?", a: "Avec plaisir ! Via la page À propos tu peux proposer un document manquant, signaler une mauvaise version ou suggérer une amélioration." },
             ].map((f) => (
               <details key={f.q} className="card-pop group px-6 py-5">
@@ -418,30 +386,45 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* ============ CTA FINAL ============ */}
+      {/* ============ COMMUNAUTÉ ============ */}
       <section className="mx-auto max-w-6xl px-5 pb-20">
         <div className="card-pop relative overflow-hidden !bg-grape p-8 text-center text-white sm:p-14">
-          <div className="animate-wiggle absolute left-6 top-6 hidden rounded-2xl border-2 border-ink bg-sun px-3 py-1.5 text-xs font-black text-ink sm:block">
-            GO L1 🚀
-          </div>
-          <div className="animate-wiggle absolute bottom-8 right-6 hidden rounded-2xl border-2 border-ink bg-mint px-3 py-1.5 text-xs font-black text-ink sm:block">
-            TD validé ✅
-          </div>
-          <p className="sticker mx-auto bg-white !text-ink">Allez, c&apos;est parti</p>
+          <p className="sticker mx-auto bg-white !text-ink">Communauté</p>
           <h2 className="font-display mx-auto mt-5 max-w-2xl text-4xl sm:text-6xl">
-            Tes cours, sans prise de tête.
+            Ne rate aucune nouveauté.
           </h2>
           <p className="mx-auto mt-4 max-w-xl font-medium text-white/80">
-            Choisis ton niveau, ouvre ta matière, lis ou télécharge. C&apos;est tout.
+            Nouveautés du site, entraide, signalements : le groupe WhatsApp.
+            Projets, tutos, coulisses : TikTok.
           </p>
           <div className="mt-8 flex flex-wrap items-center justify-center gap-4">
-            <a href="#niveaux" className="btn-pop bg-sun px-8 py-4 text-base text-ink">
-              Choisir mon niveau <ArrowRight className="h-5 w-5" />
-            </a>
-            <Link href="/a-propos" className="btn-pop bg-white px-7 py-4 text-base text-ink">
-              Découvrir le projet
-            </Link>
+            {getSiteSocial().whatsapp ? (
+              <a
+                href={getSiteSocial().whatsapp}
+                target="_blank"
+                rel="noreferrer"
+                className="btn-pop btn-mint px-8 py-4 text-base"
+              >
+                <WhatsAppIcon className="h-5 w-5" /> Rejoindre le groupe
+              </a>
+            ) : null}
+            {getSiteSocial().tiktok ? (
+              <a
+                href={getSiteSocial().tiktok}
+                target="_blank"
+                rel="noreferrer"
+                className="btn-pop bg-white px-8 py-4 text-base text-ink"
+              >
+                <TikTokIcon className="h-5 w-5 text-ink" /> Suivre sur TikTok
+              </a>
+            ) : null}
           </div>
+          <a
+            href="#niveaux"
+            className="mt-6 inline-flex items-center gap-1 text-sm font-bold text-white/80 underline decoration-white/30 underline-offset-4 transition-colors hover:text-white"
+          >
+            ou parcourir les niveaux <ArrowRight className="h-4 w-4" />
+          </a>
         </div>
       </section>
     </>

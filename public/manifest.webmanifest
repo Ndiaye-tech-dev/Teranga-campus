@@ -1,13 +1,13 @@
 {
-  "name": "Teranga Campus — Cours SEG UAM",
+  "name": "Teranga Campus — Cours UFR SEG UAM",
   "short_name": "Teranga Campus",
-  "description": "Cours, TD, corrections et flashcards de SEG (L1 → L3, UAM). Gratuit, sans compte.",
+  "description": "Cours, TD, corrections et flashcards de l'UFR SEG (L1 → L3, UAM). Gratuit, sans compte.",
   "id": "/",
   "start_url": "/?source=pwa",
   "scope": "/",
   "display": "standalone",
-  "background_color": "#FFF8EC",
-  "theme_color": "#FFF8EC",
+  "background_color": "#FAF9F6",
+  "theme_color": "#FAF9F6",
   "lang": "fr",
   "dir": "ltr",
   "icons": [
@@ -26,6 +26,20 @@
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "maskable"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "/screenshot-narrow.png",
+      "sizes": "1080x1920",
+      "type": "image/png",
+      "form_factor": "narrow"
+    },
+    {
+      "src": "/screenshot-wide.png",
+      "sizes": "1920x1080",
+      "type": "image/png",
+      "form_factor": "wide"
     }
   ]
 }

@@ -22,7 +22,7 @@ const fraunces = Fraunces({
 export const metadata: Metadata = {
   metadataBase: new URL("https://teranga-campus.vercel.app"),
   title: {
-    default: "Teranga Campus — Tous tes cours SEG au même endroit",
+    default: "Teranga Campus — Tous les cours de l'UFR SEG au même endroit",
     template: "%s · Teranga Campus",
   },
   description:
@@ -30,7 +30,7 @@ export const metadata: Metadata = {
   keywords: [
     "Teranga Campus",
     "UAM",
-    "SEG Diamniadio",
+    "UFR SEG Diamniadio",
     "cours économie gestion",
     "Licence SEG Sénégal",
     "TD corrigés",
@@ -43,16 +43,16 @@ export const metadata: Metadata = {
     type: "website",
     locale: "fr_SN",
     siteName: "Teranga Campus",
-    title: "Teranga Campus — Tous tes cours SEG au même endroit",
+    title: "Teranga Campus — Tous les cours de l'UFR SEG au même endroit",
     description:
-      "L1, L2, L3 SEG de l'UAM (Diamniadio) : cours, TD, corrections et flashcards. Gratuit, sans compte, sur ton téléphone.",
+      "L1, L2, L3 de l'UFR SEG de l'UAM (Diamniadio) : cours, TD, corrections et flashcards. Gratuit, sans compte, sur ton téléphone.",
     images: ["/og-image.png"],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Teranga Campus — Tous tes cours SEG au même endroit",
+    title: "Teranga Campus — Tous les cours de l'UFR SEG au même endroit",
     description:
-      "Cours, TD, corrections et flashcards SEG. Gratuit, sans compte. UAM Diamniadio.",
+      "Cours, TD, corrections et flashcards de l'UFR SEG. Gratuit, sans compte. UAM Diamniadio.",
     images: ["/og-image.png"],
   },
   robots: { index: true, follow: true },
@@ -107,7 +107,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
               name: "Teranga Campus",
               inLanguage: "fr",
               description:
-                "Cours SEG de l'UAM (Diamniadio), de la Licence 1 à la Licence 3.",
+                "Cours de l'UFR SEG de l'UAM (Diamniadio), de la Licence 1 à la Licence 3.",
               author: { "@type": "Person", name: "Ablaye Ndiaye" },
             }),
           }}

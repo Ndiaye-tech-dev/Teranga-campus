@@ -78,7 +78,7 @@ export function DocumentUpload({
           {pending ? "Envoi…" : submitLabel}
         </button>
       </div>
-      {error ? <p className="mt-2 text-sm font-bold text-candy">{error}</p> : null}
+      {error ? <p className="mt-2 text-sm font-bold text-danger">{error}</p> : null}
     </form>
   );
 }

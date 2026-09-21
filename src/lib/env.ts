@@ -16,3 +16,11 @@ export function getContactPhone() {
 export function getContactLinkedin() {
   return process.env.NEXT_PUBLIC_CONTACT_LINKEDIN ?? "";
 }
+
+export function getWhatsAppUrl() {
+  return process.env.NEXT_PUBLIC_WHATSAPP_URL ?? "";
+}
+
+export function getTiktokUrl() {
+  return process.env.NEXT_PUBLIC_TIKTOK_URL ?? "";
+}

@@ -22,7 +22,7 @@ export function SetupBanner({ compact = false }: { compact?: boolean }) {
   return (
     <div className={compact ? "" : "mx-auto max-w-6xl px-5 pt-8"}>
       <div className="card-pop !bg-sun px-5 py-4 text-sm font-bold">
-        ⚙️ Connecte Supabase pour afficher les cours : copie{" "}
+        Connecte Supabase pour afficher les cours : copie{" "}
         <code className="rounded bg-ink px-1.5 py-0.5 text-white">.env.example</code> vers{" "}
         <code className="rounded bg-ink px-1.5 py-0.5 text-white">.env.local</code>, ensuite exécute{" "}
         <code className="rounded bg-ink px-1.5 py-0.5 text-white">supabase/schema.sql</code>. Voir le README.

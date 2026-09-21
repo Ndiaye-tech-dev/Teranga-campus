@@ -2,8 +2,9 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight, BookOpen, ClipboardList, Zap } from "lucide-react";
+import { TikTokIcon, WhatsAppIcon } from "@/components/brand-icons";
 import { ContactForm } from "@/components/contact-form";
-import { getSiteContact } from "@/lib/site";
+import { getSiteContact, getSiteSocial } from "@/lib/site";
 
 export const metadata: Metadata = {
   title: "À propos",
@@ -11,6 +12,8 @@ export const metadata: Metadata = {
 
 export default function AboutPage() {
   const contact = getSiteContact();
+  const social = getSiteSocial();
+  const hasCommunity = Boolean(social.whatsapp || social.tiktok);
 
   return (
     <div className="mx-auto max-w-6xl px-5 py-10">
@@ -19,8 +22,8 @@ export default function AboutPage() {
         Un seul endroit pour tous les cours.
       </h1>
       <p className="mt-4 max-w-xl font-medium leading-relaxed text-muted">
-        Teranga Campus rassemble les cours de SEG de l&apos;UAM, de la L1 à
-        la L3. Plus besoin de fouiller dix groupes WhatsApp pour un TD.
+        Teranga Campus rassemble les cours de l&apos;UFR SEG de l&apos;UAM, de
+        la L1 à la L3. Plus besoin de fouiller dix groupes WhatsApp pour un TD.
       </p>
 
       {/* Qui est derrière */}
@@ -45,7 +48,7 @@ export default function AboutPage() {
           </p>
           <h2 className="font-display mt-2 text-3xl">Ablaye Ndiaye</h2>
           <p className="mt-1 text-sm font-bold text-muted">
-            Étudiant en L2 SEG à l&apos;UAM · alias NdiayeTech
+            Étudiant à l&apos;UFR SEG (L2)
           </p>
           <div className="mt-5 space-y-4 font-medium leading-relaxed text-muted">
             <p>
@@ -101,6 +104,42 @@ export default function AboutPage() {
           une erreur : écris-moi. C&apos;est comme ça que le site avancera.
         </p>
       </section>
+
+      {/* Communauté */}
+      {hasCommunity ? (
+        <section className="card-pop mt-8 px-7 py-8 sm:px-10">
+          <h2 className="font-display text-3xl">La communauté</h2>
+          <p className="mt-2 max-w-2xl font-medium leading-relaxed text-muted">
+            Le groupe WhatsApp, c&apos;est la base : annonces des nouveautés,
+            entraide entre étudiants, signalement des erreurs. Une question,
+            un bug, une idée — c&apos;est là que ça se dit. Et pour suivre
+            tous mes projets tech (tutoriels, nouveautés), rendez-vous
+            sur TikTok.
+          </p>
+          <div className="mt-5 flex flex-wrap gap-3">
+            {social.whatsapp ? (
+              <a
+                href={social.whatsapp}
+                target="_blank"
+                rel="noreferrer"
+                className="btn-pop btn-mint px-6 py-3 text-sm"
+              >
+                <WhatsAppIcon className="h-4 w-4" /> Rejoindre le groupe
+              </a>
+            ) : null}
+            {social.tiktok ? (
+              <a
+                href={social.tiktok}
+                target="_blank"
+                rel="noreferrer"
+                className="btn-pop btn-primary px-6 py-3 text-sm"
+              >
+                <TikTokIcon className="h-4 w-4" /> Suivre sur TikTok
+              </a>
+            ) : null}
+          </div>
+        </section>
+      ) : null}
 
       {/* Contact */}
       <section className="card-pop mt-8 px-7 py-8 sm:px-10">

@@ -1,42 +1,38 @@
 @import "tailwindcss";
 
+/* V2 — V1 assagie : même vivacité, palette resserrée (crème, encre,
+ * soleil, argile, menthe), mouvements rapides et utiles uniquement :
+ * <200ms, transform/opacity, ease-out marqué, pressé immédiat,
+ * aucune boucle décorative, hover réservé à la souris. */
+
 :root {
   --paper: #fff8ec;
   --ink: #1a1233;
-  --muted: #6b6390;
-  --pine: #6c2bee;
-  --pine-soft: #8b5cf6;
-  --clay: #ff6b35;
+  --muted: #5f5a76;
+  --faint: #8d88a3;
+  --sun: #ffc53d;
+  --clay: #e0651f;
+  --mint: #00a37a;
+  --mint-soft: #dff3ea;
+  --danger: #b3261e;
   --line: #1a1233;
   --card: #ffffff;
 
-  --sun: #ffc53d;
-  --mint: #00c48c;
-  --candy: #ff4d8d;
-  --sky: #3ec1ff;
-  --grape: #6c2bee;
-  --peach: #ff6b35;
-
-  --ambient-1: #6c2bee;
-  --ambient-2: #ff6b35;
-  --ambient-3: #ffc53d;
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
 }
 
 @theme inline {
   --color-paper: var(--paper);
   --color-ink: var(--ink);
   --color-muted: var(--muted);
-  --color-pine: var(--pine);
-  --color-pine-soft: var(--pine-soft);
+  --color-faint: var(--faint);
+  --color-sun: var(--sun);
   --color-clay: var(--clay);
+  --color-mint: var(--mint);
+  --color-mint-soft: var(--mint-soft);
+  --color-danger: var(--danger);
   --color-line: var(--line);
   --color-card: var(--card);
-  --color-sun: var(--sun);
-  --color-mint: var(--mint);
-  --color-candy: var(--candy);
-  --color-sky: var(--sky);
-  --color-grape: var(--grape);
-  --color-peach: var(--peach);
   --font-sans: var(--font-outfit);
   --font-serif: var(--font-fraunces);
 }
@@ -44,16 +40,20 @@
 html {
   scroll-behavior: smooth;
   overflow-x: clip;
+  -webkit-tap-highlight-color: transparent;
+  overscroll-behavior-x: none;
 }
 
 body {
   background: var(--paper);
   background-image:
-    radial-gradient(circle at 1px 1px, rgba(26, 18, 51, 0.09) 1px, transparent 0);
+    radial-gradient(circle at 1px 1px, rgba(26, 18, 51, 0.07) 1px, transparent 0);
   background-size: 26px 26px;
   color: var(--ink);
   font-family: var(--font-outfit), system-ui, sans-serif;
+  font-size: 16px;
   overflow-x: clip;
+  -webkit-font-smoothing: antialiased;
 }
 
 @supports not (overflow: clip) {
@@ -68,13 +68,35 @@ body {
   color: var(--ink);
 }
 
-/* ===== Playful utilities ===== */
+input,
+textarea,
+select {
+  font-size: 16px;
+}
 
+button,
+a {
+  touch-action: manipulation;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+p,
+h1,
+h2,
+h3,
+li {
+  -webkit-user-select: text;
+  user-select: text;
+}
+
+/* ===== Titres ===== */
 .font-display {
   font-family: var(--font-outfit), system-ui, sans-serif;
   font-weight: 800;
   letter-spacing: -0.03em;
-  line-height: 0.95;
+  line-height: 0.98;
+  text-wrap: balance;
 }
 
 .font-serif-accent {
@@ -83,6 +105,7 @@ body {
   font-weight: 500;
 }
 
+/* ===== Pastille ===== */
 .sticker {
   display: inline-flex;
   align-items: center;
@@ -95,42 +118,50 @@ body {
   text-transform: uppercase;
   letter-spacing: 0.08em;
   box-shadow: 3px 3px 0 var(--ink);
-  transform: rotate(-2deg);
+  background: #fff;
 }
 
+/* ===== Cartes ===== */
 .card-pop {
   background: #fff;
-  border: 2.5px solid var(--ink);
-  border-radius: 1.75rem;
-  box-shadow: 7px 7px 0 var(--ink);
-  transition: transform 0.22s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.22s ease;
+  border: 2px solid var(--ink);
+  border-radius: 1.5rem;
+  box-shadow: 5px 5px 0 var(--ink);
+  transition: transform 180ms var(--ease-out), box-shadow 180ms var(--ease-out);
 }
 
 a.card-pop:hover,
 .card-pop-hover:hover {
-  transform: translate(-2px, -3px) rotate(-0.4deg);
-  box-shadow: 10px 10px 0 var(--ink);
+  transform: translate(-1px, -2px);
+  box-shadow: 7px 7px 0 var(--ink);
 }
 
+a.card-pop:active,
+.card-pop-hover:active {
+  transform: translate(2px, 2px) scale(0.99);
+  box-shadow: 2px 2px 0 var(--ink);
+}
+
+/* ===== Boutons : chaque bouton mène quelque part, retour pressé net ===== */
 .btn-pop {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
-  border: 2.5px solid var(--ink);
+  border: 2px solid var(--ink);
   border-radius: 999px;
   font-weight: 800;
-  box-shadow: 5px 5px 0 var(--ink);
-  transition: transform 0.18s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.18s ease;
+  box-shadow: 4px 4px 0 var(--ink);
+  transition: transform 160ms var(--ease-out), box-shadow 160ms var(--ease-out), background-color 160ms ease;
 }
 
 .btn-pop:hover {
-  transform: translate(-1px, -2px);
-  box-shadow: 7px 7px 0 var(--ink);
+  transform: translate(-1px, -1px);
+  box-shadow: 5px 5px 0 var(--ink);
 }
 
 .btn-pop:active {
-  transform: translate(3px, 3px);
+  transform: translate(2px, 2px) scale(0.98);
   box-shadow: 1px 1px 0 var(--ink);
 }
 
@@ -144,108 +175,73 @@ a.card-pop:hover,
   color: var(--ink);
 }
 
-.btn-grape {
-  background: var(--grape);
+.btn-mint {
+  background: var(--mint);
   color: #fff;
 }
 
-.btn-mint {
-  background: var(--mint);
-  color: var(--ink);
+.btn-grape {
+  background: var(--ink);
+  color: #fff;
 }
 
-/* Hero blobs */
-.hero-blob {
-  position: absolute;
-  border: 2.5px solid var(--ink);
-  pointer-events: none;
+/* ===== Entrées : rapides, en cascade courte ===== */
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
 }
 
-@keyframes float-y {
-  0%, 100% { transform: translateY(0) rotate(var(--rot, 0deg)); }
-  50% { transform: translateY(-14px) rotate(var(--rot, 0deg)); }
+.fade-up {
+  animation: fade-up 0.45s var(--ease-out) both;
 }
 
-.animate-float {
-  animation: float-y 5s ease-in-out infinite;
+.fade-up-delay-1 {
+  animation-delay: 60ms;
 }
 
-@keyframes wiggle {
-  0%, 100% { transform: rotate(-3deg); }
-  50% { transform: rotate(3deg); }
+.fade-up-delay-2 {
+  animation-delay: 120ms;
 }
 
-.animate-wiggle {
-  animation: wiggle 2.4s ease-in-out infinite;
-}
-
-@keyframes marquee {
-  from { transform: translateX(0); }
-  to { transform: translateX(-50%); }
-}
-
-.animate-marquee {
-  animation: marquee 22s linear infinite;
+.fade-up-delay-3 {
+  animation-delay: 180ms;
 }
 
 @keyframes pop-in {
-  0% { opacity: 0; transform: scale(0.92) translateY(16px); }
-  60% { opacity: 1; transform: scale(1.02) translateY(-2px); }
-  100% { opacity: 1; transform: scale(1) translateY(0); }
+  from {
+    opacity: 0;
+    transform: scale(0.96) translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
 }
 
 .pop-in {
-  animation: pop-in 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) both;
-}
-
-@keyframes fade-up {
-  from { opacity: 0; transform: translateY(14px); }
-  to { opacity: 1; transform: none; }
-}
-
-.fade-up { animation: fade-up 0.55s ease both; }
-.fade-up-delay-1 { animation-delay: 80ms; }
-.fade-up-delay-2 { animation-delay: 160ms; }
-.fade-up-delay-3 { animation-delay: 240ms; }
-
-/* Legacy compat — map old glass classes to new pop system */
-.glass-panel,
-.glass-surface,
-[class*="bg-card"] {
-  background: #fff !important;
-  border: 2.5px solid var(--ink) !important;
-  border-radius: 1.5rem !important;
-  box-shadow: 6px 6px 0 var(--ink) !important;
-  -webkit-backdrop-filter: none !important;
-  backdrop-filter: none !important;
-  overflow: hidden;
-}
-
-.glass-panel::before,
-.glass-surface::before,
-[class*="bg-card"]::before {
-  display: none !important;
-}
-
-a[class*="bg-card"]:hover,
-[class*="bg-card"].group:hover,
-.glass-panel-in {
-  transform: translate(-1px, -2px);
+  animation: pop-in 0.45s var(--ease-out) both;
 }
 
 .hero-glow {
   background:
-    radial-gradient(600px 300px at 8% 0%, rgba(108, 43, 238, 0.16), transparent 60%),
-    radial-gradient(560px 300px at 95% 10%, rgba(255, 107, 53, 0.18), transparent 60%),
-    radial-gradient(500px 260px at 50% 100%, rgba(255, 197, 61, 0.22), transparent 60%);
+    radial-gradient(600px 300px at 8% 0%, rgba(255, 197, 61, 0.16), transparent 60%),
+    radial-gradient(560px 300px at 95% 10%, rgba(224, 101, 31, 0.12), transparent 60%);
 }
 
-.ambient-blob { display: none; }
+.ambient-blob {
+  display: none;
+}
 
 .reveal-on-scroll {
   opacity: 0;
-  transform: translateY(22px) scale(0.98);
-  transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1), transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  transform: translateY(14px);
+  transition: opacity 0.5s var(--ease-out), transform 0.5s var(--ease-out);
 }
 
 .reveal-on-scroll.is-visible {
@@ -253,35 +249,86 @@ a[class*="bg-card"]:hover,
   transform: none;
 }
 
-/* Underline squiggle */
-.squiggle {
-  position: relative;
-  white-space: nowrap;
+/* Anciennes boucles décoratives : désactivées, les éléments restent fixes. */
+.animate-float,
+.animate-wiggle,
+.animate-marquee {
+  animation: none !important;
 }
 
-.squiggle > svg {
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: -0.35em;
-  width: 100%;
-  height: 0.45em;
+/* ===== Anciens noms retirés : rabattus sur ce qui reste ===== */
+.bg-grape {
+  background-color: var(--ink) !important;
 }
-
-/* Ticket divider */
-.ticket-edge {
-  --notch: #fff8ec;
-  background-image:
-    radial-gradient(circle at 8px 50%, var(--notch) 8px, transparent 8.5px),
-    radial-gradient(circle at calc(100% - 8px) 50%, var(--notch) 8px, transparent 8.5px);
+.text-grape {
+  color: var(--ink) !important;
+}
+.bg-candy {
+  background-color: var(--clay) !important;
+}
+.text-candy {
+  color: var(--clay) !important;
+}
+.fill-candy {
+  fill: var(--clay) !important;
+}
+.bg-sky {
+  background-color: #fff !important;
+}
+.text-sky {
+  color: var(--ink) !important;
+}
+.bg-peach {
+  background-color: var(--mint) !important;
+}
+.bg-pine {
+  background-color: var(--ink) !important;
+}
+.text-pine {
+  color: var(--ink) !important;
+}
+.text-pine-soft,
+.bg-pine-soft {
+  color: var(--ink);
+}
+.text-paper,
+.bg-paper {
+  /* conservés via le thème */
+}
+.text-clay {
+  color: var(--clay) !important;
+}
+.bg-clay {
+  background-color: var(--clay) !important;
+}
+.border-grape {
+  border-color: var(--ink) !important;
 }
 
 @media (prefers-reduced-motion: reduce) {
-  html { scroll-behavior: auto; }
-  .fade-up, .reveal-on-scroll, .pop-in, .animate-float, .animate-marquee, .animate-wiggle {
-    animation: none !important;
-    transition: none !important;
-    opacity: 1 !important;
-    transform: none !important;
+  html {
+    scroll-behavior: auto;
+  }
+  .fade-up,
+  .pop-in,
+  .reveal-on-scroll {
+    animation: none;
+    transition: none;
+    opacity: 1;
+    transform: none;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+@media (prefers-reduced-transparency: reduce) {
+  .chrome-translucent {
+    background: var(--paper) !important;
+    -webkit-backdrop-filter: none !important;
+    backdrop-filter: none !important;
   }
 }

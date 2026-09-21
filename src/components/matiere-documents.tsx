@@ -382,7 +382,7 @@ function DocRow({
               read ? "bg-mint" : "bg-white hover:bg-sun"
             }`}
           >
-            {read ? "Lu ✓" : "Lu ?"}
+            {read ? "Lu" : "Lu ?"}
           </button>
           <a
             href={`/api/documents/${item.id}/download`}
