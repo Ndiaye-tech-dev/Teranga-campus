@@ -26,7 +26,7 @@ export const metadata: Metadata = {
     template: "%s · Teranga Campus",
   },
   description:
-    "Cours, TD, corrections et flashcards de Sciences Économiques et de Gestion (L1 → L3, UAM Diamniadio). Gratuit, sans compte, accessible sur téléphone.",
+    "Teranga Campus centralise les cours, TD corrigés et flashcards de l'UFR SEG (UAM Diamniadio), de la Licence 1 à la Licence 3. Accès gratuit, sans inscription, sur téléphone comme sur ordinateur.",
   keywords: [
     "Teranga Campus",
     "UAM",
@@ -45,14 +45,14 @@ export const metadata: Metadata = {
     siteName: "Teranga Campus",
     title: "Teranga Campus — Tous les cours de l'UFR SEG au même endroit",
     description:
-      "L1, L2, L3 de l'UFR SEG de l'UAM (Diamniadio) : cours, TD, corrections et flashcards. Gratuit, sans compte, sur ton téléphone.",
+      "Cours, TD corrigés et flashcards de la Licence 1 à la Licence 3 (UFR SEG, UAM Diamniadio). Gratuit, sans inscription.",
     images: ["/og-image.png"],
   },
   twitter: {
     card: "summary_large_image",
     title: "Teranga Campus — Tous les cours de l'UFR SEG au même endroit",
     description:
-      "Cours, TD, corrections et flashcards de l'UFR SEG. Gratuit, sans compte. UAM Diamniadio.",
+      "Cours, TD corrigés et flashcards de la Licence 1 à la Licence 3 (UFR SEG, UAM Diamniadio). Gratuit, sans inscription.",
     images: ["/og-image.png"],
   },
   robots: { index: true, follow: true },
@@ -107,7 +107,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
               name: "Teranga Campus",
               inLanguage: "fr",
               description:
-                "Cours de l'UFR SEG de l'UAM (Diamniadio), de la Licence 1 à la Licence 3.",
+                "Teranga Campus centralise les cours, TD corrigés et flashcards de l'UFR SEG (UAM Diamniadio), de la Licence 1 à la Licence 3. Accès gratuit, sans inscription.",
               author: { "@type": "Person", name: "Ablaye Ndiaye" },
             }),
           }}
