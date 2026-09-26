@@ -21,8 +21,8 @@ export async function SiteHeader() {
     <header className="fixed inset-x-0 top-0 z-40 px-3 pt-3 sm:px-5 sm:pt-4">
       <div className="relative mx-auto flex max-w-6xl items-center gap-2 rounded-2xl border-[2.5px] border-ink bg-white/95 px-3 py-1.5 shadow-[5px_5px_0_var(--ink)] backdrop-blur sm:gap-3 sm:rounded-full sm:px-5 sm:py-2">
         <Link href="/" className="group flex shrink-0 items-center gap-2">
-          <span className="flex h-11 w-11 shrink-0 items-center justify-center overflow-hidden rounded-2xl border-2 border-ink bg-white p-0.5">
-            <Logo variant="mark" className="h-full w-full" />
+          <span className="flex h-12 w-12 shrink-0 items-center justify-center overflow-hidden rounded-2xl border-2 border-ink bg-white p-[3px]">
+            <Logo variant="mark" className="h-full w-full object-cover" />
           </span>
           <span className="leading-none">
             <span className="block text-[15px] font-black tracking-tight sm:text-[17px]">

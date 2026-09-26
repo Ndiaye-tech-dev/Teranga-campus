@@ -15,7 +15,7 @@ export function Logo({
         alt="Teranga Campus"
         width={1024}
         height={1024}
-        className={`h-full w-auto object-contain ${className ?? ""}`}
+        className={className ?? "h-full w-auto object-contain"}
       />
     );
   }
@@ -25,7 +25,7 @@ export function Logo({
       alt="Teranga Campus"
       width={2020}
       height={779}
-      className={`h-full w-auto object-contain ${className ?? ""}`}
+      className={className ?? "h-full w-auto object-contain"}
     />
   );
 }
